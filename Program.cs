@@ -42,8 +42,6 @@ namespace OptativoIII_Parcial
         static void Main(string[] args)
         {
             string connectionString = "Host=localhost;Username=postgres;Password=0106;Database=postgres;Port=5432";
-            ClienteRepository clienteServices = new ClienteRepository(connectionString);
-            FacturaRepository facturaServices = new FacturaRepository(connectionString);
 
             Console.WriteLine("Bienvenido al Sistema");
             Console.WriteLine("1. Menu Cliente");
@@ -70,6 +68,7 @@ namespace OptativoIII_Parcial
                     switch (opcion)
                     {
                         case "1":
+                            ClienteRepository clienteServicesCreate = new ClienteRepository(connectionString);
                             Console.WriteLine("Creado nuevo cliente...");
                             Console.Write("Ingrese el nombre del cliente: ");
                             string nombreCreate = Console.ReadLine();
@@ -95,17 +94,21 @@ namespace OptativoIII_Parcial
                             nuevoCliente.Celular = celularCreate;
                             nuevoCliente.Estado = estadoCreate;
 
-                            clienteServices.create(nuevoCliente);
-                            Console.WriteLine("Cliente agregado correctamente.");
+                            clienteServicesCreate.create(nuevoCliente);
+                            Console.WriteLine("Cliente agregado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "2":
+                            ClienteRepository clienteServicesSelect = new ClienteRepository(connectionString);
                             Console.WriteLine("Listado de clientes:");
-                            clienteServices.select();
+                            clienteServicesSelect.select();
+                            Console.WriteLine("Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "3":
-
+                            ClienteRepository clienteServicesUpdate = new ClienteRepository(connectionString);
                             var cliente = new ClienteModel();
                             Console.WriteLine("Actualizando cliente...");
                             Console.Write("Ingrese el documento del cliente a actualizar: ");
@@ -131,13 +134,18 @@ namespace OptativoIII_Parcial
                             cliente.Celular = celularActualizar;
                             cliente.Estado = estadoActualizar;
 
-                            clienteServices.update(cliente, documentoActualizar);
+                            clienteServicesUpdate.update(cliente, documentoActualizar);
+                            Console.WriteLine("Cliente actualizado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "4":
+                            ClienteRepository clienteServicesDelete = new ClienteRepository(connectionString);
                             Console.WriteLine("Eliminar cliente con el nro de documento:");
                             string documentoDelete = Console.ReadLine();
-                            clienteServices.delete(documentoDelete);
+                            clienteServicesDelete.delete(documentoDelete);
+                            Console.WriteLine("Cliente eliminado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "5":
@@ -146,6 +154,8 @@ namespace OptativoIII_Parcial
 
                         default:
                             Console.WriteLine("Opción no válida. Por favor, ingrese una opción válida.");
+                            Console.WriteLine("Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
                     }
                 }
@@ -168,6 +178,7 @@ namespace OptativoIII_Parcial
                     switch (opcion)
                     {
                         case "1":
+                            FacturaRepository facturaServicesCreate = new FacturaRepository(connectionString);
                             Console.WriteLine("Creando nueva factura...");
                             Console.Write("Ingrese el ID del cliente: ");
                             int idClienteCreate = int.Parse(Console.ReadLine());
@@ -201,16 +212,21 @@ namespace OptativoIII_Parcial
                                 Sucursal = sucursalCreate
                             };
 
-                            facturaServices.Create(nuevaFactura);
-                            Console.WriteLine("Factura agregada correctamente.");
+                            facturaServicesCreate.Create(nuevaFactura);
+                            Console.WriteLine("Factura agregada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "2":
+                            FacturaRepository facturaServicesSelect = new FacturaRepository(connectionString);
                             Console.WriteLine("Listado de facturas:");
-                            facturaServices.Select();
+                            facturaServicesSelect.Select();
+                            Console.WriteLine("Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "3":
+                            FacturaRepository facturaServicesUpdate = new FacturaRepository(connectionString);
                             var facturaActualizar = new FacturaModel();
                             Console.WriteLine("Actualizando factura...");
                             Console.Write("Ingrese el ID de la factura a actualizar: ");
@@ -245,14 +261,19 @@ namespace OptativoIII_Parcial
                             facturaActualizar.TotalLetras = totalLetrasActualizar;
                             facturaActualizar.Sucursal = sucursalActualizar;
 
-                            facturaServices.Update(facturaActualizar, idFacturaActualizar);
+                            facturaServicesUpdate.Update(facturaActualizar, idFacturaActualizar);
+                            Console.WriteLine("Factura actualizada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "4":
+                            FacturaRepository facturaServicesDelete = new FacturaRepository(connectionString);
                             Console.WriteLine("Eliminando factura...");
                             Console.Write("Ingrese el ID de la factura a eliminar: ");
                             int idFacturaEliminar = int.Parse(Console.ReadLine());
-                            facturaServices.Delete(idFacturaEliminar);
+                            facturaServicesDelete.Delete(idFacturaEliminar);
+                            Console.WriteLine("Factura eliminada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
 
                         case "5":
@@ -260,7 +281,8 @@ namespace OptativoIII_Parcial
                             break;
 
                         default:
-                            Console.WriteLine("Opción no válida. Por favor, ingrese una opción válida.");
+                            Console.WriteLine("Opción no válida. Por favor, ingrese una opción válida. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
                             break;
                     }
 

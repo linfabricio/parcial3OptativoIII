@@ -76,7 +76,7 @@ namespace OptativoIII_Parcial.Repository.Cliente
             try
             {
                 var cmd = connection.CreateCommand();
-                cmd.CommandText = $"DELETE FROM Cliente WHERE Documento = {documento}";
+                cmd.CommandText = $"DELETE FROM Cliente WHERE Documento = '{documento}'";
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
