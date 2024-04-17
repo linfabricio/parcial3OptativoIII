@@ -74,6 +74,8 @@ namespace OptativoIII_Parcial
                             string nombreCreate = Console.ReadLine();
                             Console.Write("Ingrese el apellido del cliente: ");
                             string apellidoCreate = Console.ReadLine();
+                            Console.Write("Ingrese el bando del cliente: ");
+                            int bancoCreate = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el documento del cliente: ");
                             string documentoCreate = Console.ReadLine();
                             Console.Write("Ingrese la dirección del cliente: ");
@@ -93,6 +95,7 @@ namespace OptativoIII_Parcial
                             nuevoCliente.Mail = mailCreate;
                             nuevoCliente.Celular = celularCreate;
                             nuevoCliente.Estado = estadoCreate;
+                            nuevoCliente.IdBanco = bancoCreate;
 
                             clienteServicesCreate.create(nuevoCliente);
                             Console.WriteLine("Cliente agregado correctamente. Presione cualquier tecla para continuar...");
@@ -113,6 +116,8 @@ namespace OptativoIII_Parcial
                             Console.WriteLine("Actualizando cliente...");
                             Console.Write("Ingrese el documento del cliente a actualizar: ");
                             string documentoActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el bando del cliente: ");
+                            int bancoActualizar = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el nombre del cliente: ");
                             string nombreActualizar = Console.ReadLine();
                             Console.Write("Ingrese el apellido del cliente: ");
@@ -133,6 +138,7 @@ namespace OptativoIII_Parcial
                             cliente.Mail = mailActualizar;
                             cliente.Celular = celularActualizar;
                             cliente.Estado = estadoActualizar;
+                            cliente.IdBanco = bancoActualizar;
 
                             clienteServicesUpdate.update(cliente, documentoActualizar);
                             Console.WriteLine("Cliente actualizado correctamente. Presione cualquier tecla para continuar...");

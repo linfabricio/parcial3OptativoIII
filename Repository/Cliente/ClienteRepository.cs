@@ -55,12 +55,12 @@ namespace OptativoIII_Parcial.Repository.Cliente
                 cmd.CommandText = "UPDATE Cliente " +
                                   $"SET Nombre = '{cliente.Nombre}', " +
                                   $"Apellido = '{cliente.Apellido}', " +
-                                  $"IdBanco = '{cliente.IdBanco}', " +
+                                  $"id_banco = '{cliente.IdBanco}', " +
                                   $"Direccion = '{cliente.Direccion}', " +
                                   $"Mail = '{cliente.Mail}', " +
                                   $"Celular = '{cliente.Celular}', " +
                                   $"Estado = '{cliente.Estado}' " +
-                                  $"WHERE Documento = {documento}";
+                                  $"WHERE Documento = '{documento}'";
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 return true;

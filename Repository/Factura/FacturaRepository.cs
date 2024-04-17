@@ -62,7 +62,7 @@ namespace OptativoIII_Parcial.Repository.Factura
                                   $"Total_iva = {factura.TotalIva}, " +
                                   $"Total_letras = '{factura.TotalLetras}', " +
                                   $"Sucursal = '{factura.Sucursal}' " +
-                                  $"WHERE Nro_Factura = {Nro_Factura}";
+                                  $"WHERE Nro_Factura = '{Nro_Factura}'";
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
@@ -79,7 +79,7 @@ namespace OptativoIII_Parcial.Repository.Factura
             try
             {
                 var cmd = connection.CreateCommand();
-                cmd.CommandText = $"DELETE FROM Factura WHERE Nro_Factura = {Nro_Factura}";
+                cmd.CommandText = $"DELETE FROM Factura WHERE Nro_Factura = '{Nro_Factura}'";
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
