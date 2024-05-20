@@ -3,15 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|c:\\users\\fabri\\source\\repos\\optativoiii_parcial\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\modelos\\clientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:modelos\\clientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\repository\\cliente\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|c:\\users\\fabri\\source\\repos\\optativoiii_parcial\\repository\\cliente\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:repository\\cliente\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -19,16 +15,8 @@
       "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:repository\\factura\\facturarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\repository\\cliente\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:repository\\cliente\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\repository\\configuraciondb\\connectiondb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:repository\\configuraciondb\\connectiondb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\modelos\\facturamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:modelos\\facturamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|c:\\users\\fabri\\source\\repos\\optativoiii_parcial\\repository\\sucursal\\sucursalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{14BA964C-211D-451D-9623-DCB045223D23}|OptativoIII_Parcial.csproj|solutionrelative:repository\\sucursal\\sucursalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -48,7 +36,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAIwFgAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAKQAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-16T23:42:13.348Z",
               "EditorCaption": ""
@@ -56,77 +44,41 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "SucursalRepository.cs",
+              "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Sucursal\\SucursalRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Sucursal\\SucursalRepository.cs",
+              "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Sucursal\\SucursalRepository.cs",
+              "RelativeToolTip": "Repository\\Sucursal\\SucursalRepository.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwBAAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T22:06:16.506Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "FacturaRepository.cs",
               "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Factura\\FacturaRepository.cs",
               "RelativeDocumentMoniker": "Repository\\Factura\\FacturaRepository.cs",
               "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Factura\\FacturaRepository.cs",
               "RelativeToolTip": "Repository\\Factura\\FacturaRepository.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAowDAAAABBAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-17T00:54:52.729Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "ClienteRepository.cs",
               "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Cliente\\ClienteRepository.cs",
               "RelativeDocumentMoniker": "Repository\\Cliente\\ClienteRepository.cs",
               "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Cliente\\ClienteRepository.cs",
               "RelativeToolTip": "Repository\\Cliente\\ClienteRepository.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAUwDkAAABAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-16T23:48:31.568Z",
+              "WhenOpened": "2024-05-20T22:13:12.174Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Validator.cs",
-              "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Cliente\\Validator.cs",
-              "RelativeDocumentMoniker": "Repository\\Cliente\\Validator.cs",
-              "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\Cliente\\Validator.cs",
-              "RelativeToolTip": "Repository\\Cliente\\Validator.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T01:10:36.903Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FacturaModel.cs",
-              "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Modelos\\FacturaModel.cs",
-              "RelativeDocumentMoniker": "Modelos\\FacturaModel.cs",
-              "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Modelos\\FacturaModel.cs",
-              "RelativeToolTip": "Modelos\\FacturaModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T00:56:31.261Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ClienteModel.cs",
-              "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Modelos\\ClienteModel.cs",
-              "RelativeDocumentMoniker": "Modelos\\ClienteModel.cs",
-              "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Modelos\\ClienteModel.cs",
-              "RelativeToolTip": "Modelos\\ClienteModel.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAIwBwAAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T00:24:47.739Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ConnectionDB.cs",
-              "DocumentMoniker": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\ConfiguracionDb\\ConnectionDB.cs",
-              "RelativeDocumentMoniker": "Repository\\ConfiguracionDb\\ConnectionDB.cs",
-              "ToolTip": "C:\\Users\\fabri\\source\\repos\\OptativoIII_Parcial\\Repository\\ConfiguracionDb\\ConnectionDB.cs",
-              "RelativeToolTip": "Repository\\ConfiguracionDb\\ConnectionDB.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-16T23:43:54.033Z"
             }
           ]
         }

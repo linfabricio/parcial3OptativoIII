@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.2.1.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
     </Reference>
@@ -193,6 +196,7 @@
   <ItemGroup>
     <Compile Include="Modelos\ClienteModel.cs" />
     <Compile Include="Modelos\FacturaModel.cs" />
+    <Compile Include="Modelos\SucursalModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Cliente\ClienteRepository.cs" />
@@ -200,6 +204,8 @@
     <Compile Include="Repository\ConfiguracionDb\ConnectionDB.cs" />
     <Compile Include="Repository\Factura\FacturaRepository.cs" />
     <Compile Include="Repository\Factura\Validator.cs" />
+    <Compile Include="Repository\Sucursal\SucursalRepository.cs" />
+    <Compile Include="Repository\Sucursal\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

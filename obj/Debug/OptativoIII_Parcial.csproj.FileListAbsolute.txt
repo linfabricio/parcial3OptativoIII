@@ -97,3 +97,5 @@ C:\Users\fabri\source\repos\OptativoIII_Parcial\obj\Debug\OptativoIII_Parcial.cs
 C:\Users\fabri\source\repos\OptativoIII_Parcial\obj\Debug\Optativo.E17E9102.Up2Date
 C:\Users\fabri\source\repos\OptativoIII_Parcial\obj\Debug\OptativoIII_Parcial.exe
 C:\Users\fabri\source\repos\OptativoIII_Parcial\obj\Debug\OptativoIII_Parcial.pdb
+C:\Users\fabri\source\repos\OptativoIII_Parcial\bin\Debug\Dapper.dll
+C:\Users\fabri\source\repos\OptativoIII_Parcial\bin\Debug\Dapper.xml

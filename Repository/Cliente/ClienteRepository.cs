@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using Dapper;
 using Npgsql;
 using OptativoIII_Parcial.Modelos;
 using OptativoIII_Parcial.Repository.ConfiguracionDb;
@@ -12,30 +10,24 @@ namespace OptativoIII_Parcial.Repository.Cliente
 {
     public class ClienteRepository
     {
-        NpgsqlConnection connection;
+        private readonly NpgsqlConnection connection;
+
         public ClienteRepository(string connectionString)
         {
             connection = new ConnectionDB().OpenConnection();
         }
 
-        public bool create(ClienteModel cliente)
+        public bool Create(ClienteModel cliente)
         {
             ValidatorCliente.ValidateClienteModel(cliente);
 
             try
             {
+                string query = "INSERT INTO Cliente (id_banco, Nombre, Apellido, Documento, Direccion, Mail, Celular, Estado) " +
+                               "VALUES (@IdBanco, @Nombre, @Apellido, @Documento, @Direccion, @Mail, @Celular, @Estado)";
 
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO Cliente(id_banco, Nombre, Apellido, Documento, Direccion, Mail, Celular, Estado) " +
-                                  $"VALUES({cliente.IdBanco}," +
-                                  $" '{cliente.Nombre}'," +
-                                  $"'{cliente.Apellido}', " +
-                                  $"'{cliente.Documento}', " +
-                                  $"'{cliente.Direccion}', " +
-                                  $"'{cliente.Mail}', " +
-                                  $"'{cliente.Celular}', " +
-                                  $"'{cliente.Estado}')";
-                cmd.ExecuteNonQuery();
+                connection.Execute(query, cliente);
+
                 connection.Close();
                 return true;
             }
@@ -45,23 +37,34 @@ namespace OptativoIII_Parcial.Repository.Cliente
             }
         }
 
-        public bool update(ClienteModel cliente,String documento)
+        public bool Update(ClienteModel cliente, string documento)
         {
             ValidatorCliente.ValidateClienteModel(cliente);
 
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "UPDATE Cliente " +
-                                  $"SET Nombre = '{cliente.Nombre}', " +
-                                  $"Apellido = '{cliente.Apellido}', " +
-                                  $"id_banco = '{cliente.IdBanco}', " +
-                                  $"Direccion = '{cliente.Direccion}', " +
-                                  $"Mail = '{cliente.Mail}', " +
-                                  $"Celular = '{cliente.Celular}', " +
-                                  $"Estado = '{cliente.Estado}' " +
-                                  $"WHERE Documento = '{documento}'";
-                cmd.ExecuteNonQuery();
+                string query = "UPDATE Cliente " +
+                               "SET Nombre = @Nombre, " +
+                               "Apellido = @Apellido, " +
+                               "id_banco = @IdBanco, " +
+                               "Direccion = @Direccion, " +
+                               "Mail = @Mail, " +
+                               "Celular = @Celular, " +
+                               "Estado = @Estado " +
+                               "WHERE Documento = @Documento";
+
+                connection.Execute(query, new
+                {
+                    cliente.Nombre,
+                    cliente.Apellido,
+                    cliente.IdBanco,
+                    cliente.Direccion,
+                    cliente.Mail,
+                    cliente.Celular,
+                    cliente.Estado,
+                    Documento = documento
+                });
+
                 connection.Close();
                 return true;
             }
@@ -71,14 +74,14 @@ namespace OptativoIII_Parcial.Repository.Cliente
             }
         }
 
-        public bool delete(String documento)
+        public bool Delete(string documento)
         {
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = $"DELETE FROM Cliente WHERE Documento = '{documento}'";
+                string query = "DELETE FROM Cliente WHERE Documento = @Documento";
 
-                cmd.ExecuteNonQuery();
+                connection.Execute(query, new { Documento = documento });
+
                 connection.Close();
                 return true;
             }
@@ -88,21 +91,19 @@ namespace OptativoIII_Parcial.Repository.Cliente
             }
         }
 
-        public void select()
+        public void Select()
         {
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT * FROM Cliente";
+                string query = "SELECT * FROM Cliente";
 
-                using (var reader = cmd.ExecuteReader())
+                var clientes = connection.Query<ClienteModel>(query);
+
+                Console.WriteLine("Lista de Clientes:");
+                Console.WriteLine("ID Banco | Nombre | Apellido | Documento | Dirección | Mail | Celular | Estado");
+                foreach (var cliente in clientes)
                 {
-                    Console.WriteLine("Lista de Clientes:");
-                    Console.WriteLine("ID Banco | Nombre | Apellido | Documento | Dirección | Mail | Celular | Estado");
-                    while (reader.Read())
-                    {
-                        Console.WriteLine($"{reader["id_banco"]} | {reader["Nombre"]} | {reader["Apellido"]} | {reader["Documento"]} | {reader["Direccion"]} | {reader["Mail"]} | {reader["Celular"]} | {reader["Estado"]}");
-                    }
+                    Console.WriteLine($"{cliente.IdBanco} | {cliente.Nombre} | {cliente.Apellido} | {cliente.Documento} | {cliente.Direccion} | {cliente.Mail} | {cliente.Celular} | {cliente.Estado}");
                 }
 
                 connection.Close();

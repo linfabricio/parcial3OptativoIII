@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using Dapper;
 using Npgsql;
 using OptativoIII_Parcial.Modelos;
 using OptativoIII_Parcial.Repository.ConfiguracionDb;
@@ -12,10 +10,12 @@ namespace OptativoIII_Parcial.Repository.Factura
 {
     public class FacturaRepository
     {
-        NpgsqlConnection connection;
+        private readonly NpgsqlConnection connection;
+
         public FacturaRepository(string connectionString)
         {
-            connection = new ConnectionDB().OpenConnection();
+            connection = new NpgsqlConnection(connectionString);
+            connection.Open();
         }
 
         public bool Create(FacturaModel factura)
@@ -24,25 +24,20 @@ namespace OptativoIII_Parcial.Repository.Factura
 
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO Factura (id_cliente, Nro_Factura, Fecha_Hora, Total, Total_iva5, Total_iva10, Total_iva, Total_letras, Sucursal) " +
-                                  $"VALUES ({factura.IdCliente}, " +
-                                  $"'{factura.NroFactura}'," +
-                                  $"'{factura.FechaHora.ToString("yyyy-MM-dd HH:mm:ss")}'," +
-                                  $" {factura.Total}, " +
-                                  $"{factura.TotalIva5}, " +
-                                  $"{factura.TotalIva10}, " +
-                                  $"{factura.TotalIva}, " +
-                                  $"'{factura.TotalLetras}', " +
-                                  $"'{factura.Sucursal}')";
+                string query = "INSERT INTO Factura (id_cliente, id_sucursal, Nro_Factura, Fecha_Hora, Total, Total_iva5, Total_iva10, Total_iva, Total_letras, Sucursal) " +
+                               "VALUES (@IdCliente, @IdSucursal, @NroFactura, @FechaHora, @Total, @TotalIva5, @TotalIva10, @TotalIva, @TotalLetras, @Sucursal)";
 
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                connection.Execute(query, factura);
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al agregar factura", ex);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -52,25 +47,41 @@ namespace OptativoIII_Parcial.Repository.Factura
 
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "UPDATE Factura " +
-                                  $"SET id_cliente = {factura.IdCliente}, " +
-                                  $"Fecha_Hora = '{factura.FechaHora.ToString("yyyy-MM-dd HH:mm:ss")}', " +
-                                  $"Total = {factura.Total}, " +
-                                  $"Total_iva5 = {factura.TotalIva5}, " +
-                                  $"Total_iva10 = {factura.TotalIva10}, " +
-                                  $"Total_iva = {factura.TotalIva}, " +
-                                  $"Total_letras = '{factura.TotalLetras}', " +
-                                  $"Sucursal = '{factura.Sucursal}' " +
-                                  $"WHERE Nro_Factura = '{Nro_Factura}'";
+                string query = "UPDATE Factura " +
+                               "SET id_cliente = @IdCliente, " +
+                               "id_sucursal = @IdSucursal, " +
+                               "Fecha_Hora = @FechaHora, " +
+                               "Total = @Total, " +
+                               "Total_iva5 = @TotalIva5, " +
+                               "Total_iva10 = @TotalIva10, " +
+                               "Total_iva = @TotalIva, " +
+                               "Total_letras = @TotalLetras, " +
+                               "Sucursal = @Sucursal " +
+                               "WHERE Nro_Factura = @NroFactura";
 
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                connection.Execute(query, new
+                {
+                    factura.IdCliente,
+                    factura.IdSucursal,
+                    factura.FechaHora,
+                    factura.Total,
+                    factura.TotalIva5,
+                    factura.TotalIva10,
+                    factura.TotalIva,
+                    factura.TotalLetras,
+                    factura.Sucursal,
+                    Nro_Factura
+                });
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al actualizar factura", ex);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -78,16 +89,19 @@ namespace OptativoIII_Parcial.Repository.Factura
         {
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = $"DELETE FROM Factura WHERE Nro_Factura = '{Nro_Factura}'";
+                string query = "DELETE FROM Factura WHERE Nro_Factura = @NroFactura";
 
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                connection.Execute(query, new { Nro_Factura });
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al eliminar factura", ex);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -95,24 +109,24 @@ namespace OptativoIII_Parcial.Repository.Factura
         {
             try
             {
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT * FROM Factura";
+                string query = "SELECT * FROM Factura";
 
-                using (var reader = cmd.ExecuteReader())
+                var facturas = connection.Query<FacturaModel>(query);
+
+                Console.WriteLine("Lista de Facturas:");
+                Console.WriteLine("ID | ID Cliente | ID Sucursal | Nro Factura | Fecha Hora | Total | Total IVA 5 | Total IVA 10 | Total IVA | Total Letras | Sucursal");
+                foreach (var factura in facturas)
                 {
-                    Console.WriteLine("Lista de Facturas:");
-                    Console.WriteLine("ID | ID Cliente | Nro Factura | Fecha Hora | Total | Total IVA 5 | Total IVA 10 | Total IVA | Total Letras | Sucursal");
-                    while (reader.Read())
-                    {
-                        Console.WriteLine($"{reader["id"]} | {reader["id_cliente"]} | {reader["Nro_Factura"]} | {reader["Fecha_Hora"]} | {reader["Total"]} | {reader["Total_iva5"]} | {reader["Total_iva10"]} | {reader["Total_iva"]} | {reader["Total_letras"]} | {reader["Sucursal"]}");
-                    }
+                    Console.WriteLine($"{factura.Id} | {factura.IdCliente} | {factura.IdSucursal} | {factura.NroFactura} | {factura.FechaHora} | {factura.Total} | {factura.TotalIva5} | {factura.TotalIva10} | {factura.TotalIva} | {factura.TotalLetras} | {factura.Sucursal}");
                 }
-
-                connection.Close();
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener lista de facturas", ex);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

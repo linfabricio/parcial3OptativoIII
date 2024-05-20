@@ -8,6 +8,7 @@ using Npgsql;
 using OptativoIII_Parcial.Modelos;
 using OptativoIII_Parcial.Repository.Cliente;
 using OptativoIII_Parcial.Repository.Factura;
+using OptativoIII_Parcial.Repository.Sucursal;
 using OptativoIII_Parcial.Repository.ConfiguracionDb;
 
 //CREATE TABLE Cliente (
@@ -21,10 +22,21 @@ using OptativoIII_Parcial.Repository.ConfiguracionDb;
 //    Celular VARCHAR(20),
 //    Estado VARCHAR(50)
 //);
+//
+//CREATE TABLE Sucursal (
+//Id SERIAL PRIMARY KEY,
+//Descripcion VARCHAR(255) NOT NULL,
+//Direccion VARCHAR(255),
+//    Telefono VARCHAR(20),
+//    Whatsapp VARCHAR(20),
+//    Mail VARCHAR(100),
+//    Estado VARCHAR(50)
+//);
 
 //CREATE TABLE Factura (
 //    id SERIAL PRIMARY KEY,
 //    id_cliente INTEGER REFERENCES Cliente(id),
+//    id_sucursal INTEGER REFERENCES Sucursal(Id),
 //    Nro_Factura VARCHAR(50) UNIQUE NOT NULL,
 //    Fecha_Hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 //    Total DECIMAL(10, 2),
@@ -46,7 +58,8 @@ namespace OptativoIII_Parcial
             Console.WriteLine("Bienvenido al Sistema");
             Console.WriteLine("1. Menu Cliente");
             Console.WriteLine("2. Menu Factura");
-            Console.WriteLine("3. Salir");
+            Console.WriteLine("3. Menu Sucursal");
+            Console.WriteLine("4. Salir");
 
             string opcionMenu = Console.ReadLine();
 
@@ -97,7 +110,7 @@ namespace OptativoIII_Parcial
                             nuevoCliente.Estado = estadoCreate;
                             nuevoCliente.IdBanco = bancoCreate;
 
-                            clienteServicesCreate.create(nuevoCliente);
+                            clienteServicesCreate.Create(nuevoCliente);
                             Console.WriteLine("Cliente agregado correctamente. Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -105,7 +118,7 @@ namespace OptativoIII_Parcial
                         case "2":
                             ClienteRepository clienteServicesSelect = new ClienteRepository(connectionString);
                             Console.WriteLine("Listado de clientes:");
-                            clienteServicesSelect.select();
+                            clienteServicesSelect.Select();
                             Console.WriteLine("Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -140,7 +153,7 @@ namespace OptativoIII_Parcial
                             cliente.Estado = estadoActualizar;
                             cliente.IdBanco = bancoActualizar;
 
-                            clienteServicesUpdate.update(cliente, documentoActualizar);
+                            clienteServicesUpdate.Update(cliente, documentoActualizar);
                             Console.WriteLine("Cliente actualizado correctamente. Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -149,7 +162,7 @@ namespace OptativoIII_Parcial
                             ClienteRepository clienteServicesDelete = new ClienteRepository(connectionString);
                             Console.WriteLine("Eliminar cliente con el nro de documento:");
                             string documentoDelete = Console.ReadLine();
-                            clienteServicesDelete.delete(documentoDelete);
+                            clienteServicesDelete.Delete(documentoDelete);
                             Console.WriteLine("Cliente eliminado correctamente. Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -189,6 +202,8 @@ namespace OptativoIII_Parcial
                             Console.Write("Ingrese el ID del cliente: ");
                             int idClienteCreate = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el número de factura: ");
+                            int idSucursalCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el número de factura: ");
                             string nroFacturaCreate = Console.ReadLine();
                             Console.Write("Ingrese la fecha y hora de la factura (yyyy-MM-dd HH:mm:ss): ");
                             DateTime fechaHoraCreate = DateTime.ParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -208,6 +223,7 @@ namespace OptativoIII_Parcial
                             var nuevaFactura = new FacturaModel
                             {
                                 IdCliente = idClienteCreate,
+                                IdSucursal = idSucursalCreate,
                                 NroFactura = nroFacturaCreate,
                                 FechaHora = fechaHoraCreate,
                                 Total = totalCreate,
@@ -239,6 +255,8 @@ namespace OptativoIII_Parcial
                             int idFacturaActualizar = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el ID del cliente: ");
                             int idClienteActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el ID del sucursal: ");
+                            int idSucursalActualizar = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el número de factura: ");
                             string nroFacturaActualizar = Console.ReadLine();
                             Console.Write("Ingrese la fecha y hora de la factura (yyyy-MM-dd HH:mm:ss): ");
@@ -258,6 +276,7 @@ namespace OptativoIII_Parcial
 
                             facturaActualizar.Id = idFacturaActualizar;
                             facturaActualizar.IdCliente = idClienteActualizar;
+                            facturaActualizar.IdSucursal = idSucursalActualizar;
                             facturaActualizar.NroFactura = nroFacturaActualizar;
                             facturaActualizar.FechaHora = fechaHoraActualizar;
                             facturaActualizar.Total = totalActualizar;
@@ -292,6 +311,115 @@ namespace OptativoIII_Parcial
                             break;
                     }
 
+                }
+            }
+            else if (opcionMenu == "3")
+            {
+                Console.WriteLine("Menú Sucursal Seleccione una opción");
+                Console.WriteLine("1. Agregar Sucursal");
+                Console.WriteLine("2. Listar Sucursales");
+                Console.WriteLine("3. Actualizar Sucursal");
+                Console.WriteLine("4. Eliminar Sucursal");
+                Console.WriteLine("5. Salir");
+
+                bool salirMenuSucursal = false;
+                while (!salirMenuSucursal)
+                {
+                    Console.Write("Ingrese la opción deseada: ");
+                    string opcion = Console.ReadLine();
+
+                    switch (opcion)
+                    {
+                        case "1":
+                            SucursalRepository sucursalServicesCreate = new SucursalRepository(connectionString);
+                            Console.WriteLine("Creando nueva sucursal...");
+                            Console.Write("Ingrese la descripción: ");
+                            string descripcionCreate = Console.ReadLine();
+                            Console.Write("Ingrese la dirección: ");
+                            string direccionCreate = Console.ReadLine();
+                            Console.Write("Ingrese el teléfono: ");
+                            string telefonoCreate = Console.ReadLine();
+                            Console.Write("Ingrese el Whatsapp: ");
+                            string whatsappCreate = Console.ReadLine();
+                            Console.Write("Ingrese el mail: ");
+                            string mailCreate = Console.ReadLine();
+                            Console.Write("Ingrese el estado: ");
+                            string estadoCreate = Console.ReadLine();
+
+                            var nuevaSucursal = new SucursalModel
+                            {
+                                Descripcion = descripcionCreate,
+                                Direccion = direccionCreate,
+                                Telefono = telefonoCreate,
+                                Whatsapp = whatsappCreate,
+                                Mail = mailCreate,
+                                Estado = estadoCreate
+                            };
+
+                            sucursalServicesCreate.Create(nuevaSucursal);
+                            Console.WriteLine("Sucursal agregada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "2":
+                            SucursalRepository sucursalServicesSelect = new SucursalRepository(connectionString);
+                            Console.WriteLine("Listado de sucursales:");
+                            sucursalServicesSelect.Select();
+                            Console.WriteLine("Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "3":
+                            SucursalRepository sucursalServicesUpdate = new SucursalRepository(connectionString);
+                            var sucursalActualizar = new SucursalModel();
+                            Console.WriteLine("Actualizando sucursal...");
+                            Console.Write("Ingrese el ID de la sucursal a actualizar: ");
+                            int idSucursalActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la descripción: ");
+                            string descripcionActualizar = Console.ReadLine();
+                            Console.Write("Ingrese la dirección: ");
+                            string direccionActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el teléfono: ");
+                            string telefonoActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el Whatsapp: ");
+                            string whatsappActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el mail: ");
+                            string mailActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el estado: ");
+                            string estadoActualizar = Console.ReadLine();
+
+                            sucursalActualizar.Id = idSucursalActualizar;
+                            sucursalActualizar.Descripcion = descripcionActualizar;
+                            sucursalActualizar.Direccion = direccionActualizar;
+                            sucursalActualizar.Telefono = telefonoActualizar;
+                            sucursalActualizar.Whatsapp = whatsappActualizar;
+                            sucursalActualizar.Mail = mailActualizar;
+                            sucursalActualizar.Estado = estadoActualizar;
+
+                            sucursalServicesUpdate.Update(sucursalActualizar, idSucursalActualizar);
+                            Console.WriteLine("Sucursal actualizada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "4":
+                            SucursalRepository sucursalServicesDelete = new SucursalRepository(connectionString);
+                            Console.WriteLine("Eliminando sucursal...");
+                            Console.Write("Ingrese el ID de la sucursal a eliminar: ");
+                            int idSucursalEliminar = int.Parse(Console.ReadLine());
+                            sucursalServicesDelete.Delete(idSucursalEliminar);
+                            Console.WriteLine("Sucursal eliminada correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "5":
+                            salirMenuSucursal = true;
+                            break;
+
+                        default:
+                            Console.WriteLine("Opción no válida. Por favor, ingrese una opción válida. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+                    }
                 }
             }
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace OptativoIII_Parcial.Modelos
@@ -12,6 +8,8 @@ namespace OptativoIII_Parcial.Modelos
         public int Id { get; set; }
 
         public int IdCliente { get; set; }
+
+        public int IdSucursal { get; set; }
 
         [RegularExpression(@"^\d{3}-\d{3}-\d{6}$", ErrorMessage = "El formato de la factura debe ser XXX-XXX-XXXXXX.")]
         public string NroFactura { get; set; }
