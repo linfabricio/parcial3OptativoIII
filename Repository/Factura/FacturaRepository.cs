@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Dapper;
 using Npgsql;
 using OptativoIII_Parcial.Modelos;
@@ -18,16 +20,23 @@ namespace OptativoIII_Parcial.Repository.Factura
             connection.Open();
         }
 
-        public bool Create(FacturaModel factura)
+        public bool Create(FacturaModel factura, DetalleFacturaModel detalleFactura)
         {
             ValidatorFactura.ValidateFacturaModel(factura);
 
             try
             {
-                string query = "INSERT INTO Factura (id_cliente, id_sucursal, Nro_Factura, Fecha_Hora, Total, Total_iva5, Total_iva10, Total_iva, Total_letras, Sucursal) " +
-                               "VALUES (@IdCliente, @IdSucursal, @NroFactura, @FechaHora, @Total, @TotalIva5, @TotalIva10, @TotalIva, @TotalLetras, @Sucursal)";
 
-                connection.Execute(query, factura);
+                string queryFactura = "INSERT INTO Factura (id_cliente, id_sucursal, Nro_Factura, Fecha_Hora, Total, Total_iva5, Total_iva10, Total_iva, Total_letras) " +
+                               "VALUES (@IdCliente, @IdSucursal, @NroFactura, @FechaHora, @Total, @TotalIva5, @TotalIva10, @TotalIva, @TotalLetras)";
+
+                connection.Execute(queryFactura, factura);
+
+
+                string queryDetalleFactura = @"INSERT INTO Detalle_factura (id_factura, id_producto, cantidad_producto, subtotal)
+                    VALUES (@IdFactura, @IdProducto, @CantidadProducto, @Subtotal)";
+
+                connection.Execute(queryDetalleFactura, detalleFactura);
 
                 return true;
             }
@@ -41,25 +50,28 @@ namespace OptativoIII_Parcial.Repository.Factura
             }
         }
 
-        public bool Update(FacturaModel factura, int Nro_Factura)
+        public bool Update(FacturaModel factura, int Nro_Factura, DetalleFacturaModel detalleFactura)
         {
             ValidatorFactura.ValidateFacturaModel(factura);
 
             try
             {
-                string query = "UPDATE Factura " +
-                               "SET id_cliente = @IdCliente, " +
-                               "id_sucursal = @IdSucursal, " +
-                               "Fecha_Hora = @FechaHora, " +
-                               "Total = @Total, " +
-                               "Total_iva5 = @TotalIva5, " +
-                               "Total_iva10 = @TotalIva10, " +
-                               "Total_iva = @TotalIva, " +
-                               "Total_letras = @TotalLetras, " +
-                               "Sucursal = @Sucursal " +
-                               "WHERE Nro_Factura = @NroFactura";
+                connection.Open();
 
-                connection.Execute(query, new
+                string queryFactura = @"
+            UPDATE Factura 
+            SET id_cliente = @IdCliente, 
+                id_sucursal = @IdSucursal, 
+                Fecha_Hora = @FechaHora, 
+                Total = @Total, 
+                Total_iva5 = @TotalIva5, 
+                Total_iva10 = @TotalIva10, 
+                Total_iva = @TotalIva, 
+                Total_letras = @TotalLetras, 
+                Sucursal = @Sucursal 
+            WHERE Nro_Factura = @NroFactura";
+
+                connection.Execute(queryFactura, new
                 {
                     factura.IdCliente,
                     factura.IdSucursal,
@@ -73,17 +85,34 @@ namespace OptativoIII_Parcial.Repository.Factura
                     Nro_Factura
                 });
 
+                string queryDetalleFactura = @"
+            UPDATE DetalleFactura 
+            SET Id_Producto = @IdProducto, 
+                Cantidad_Producto = @CantidadProducto, 
+                Subtotal = @Subtotal 
+            WHERE Id_Factura = @IdFactura";
+
+                connection.Execute(queryDetalleFactura, new
+                {
+                    detalleFactura.IdProducto,
+                    detalleFactura.CantidadProducto,
+                    detalleFactura.Subtotal,
+                    IdFactura = factura.Id
+                });
+
+
                 return true;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al actualizar factura", ex);
+                throw new Exception("Error al actualizar factura con detalle", ex);
             }
             finally
             {
                 connection.Close();
             }
         }
+
 
         public bool Delete(int Nro_Factura)
         {
@@ -92,6 +121,9 @@ namespace OptativoIII_Parcial.Repository.Factura
                 string query = "DELETE FROM Factura WHERE Nro_Factura = @NroFactura";
 
                 connection.Execute(query, new { Nro_Factura });
+
+                string queryDetalleFactura = "DELETE FROM DetalleFactura WHERE Id_Factura = @NroFactura";
+                connection.Execute(queryDetalleFactura, new { Nro_Factura });
 
                 return true;
             }
@@ -109,15 +141,58 @@ namespace OptativoIII_Parcial.Repository.Factura
         {
             try
             {
-                string query = "SELECT * FROM Factura";
+                // Obtener todas las facturas
+                string queryFacturas = @"
+            SELECT 
+                f.Id,
+                f.Id_Cliente AS IdCliente,
+                f.Id_Sucursal AS IdSucursal,
+                f.Nro_Factura AS NroFactura,
+                f.Fecha_Hora AS FechaHora,
+                f.Total,
+                f.Total_iva5 AS TotalIva5,
+                f.Total_iva10 AS TotalIva10,
+                f.Total_iva AS TotalIva,
+                f.Total_letras AS TotalLetras
+            FROM Factura f;";
 
-                var facturas = connection.Query<FacturaModel>(query);
+                var facturas = connection.Query<FacturaModel>(queryFacturas).ToList();
 
-                Console.WriteLine("Lista de Facturas:");
-                Console.WriteLine("ID | ID Cliente | ID Sucursal | Nro Factura | Fecha Hora | Total | Total IVA 5 | Total IVA 10 | Total IVA | Total Letras | Sucursal");
+                string queryDetalles = @"
+            SELECT 
+                df.Id AS IdDetalle,
+                df.Id_Factura AS IdFactura,
+                df.Id_Producto AS IdProducto,
+                df.Cantidad_Producto AS CantidadProducto,
+                df.Subtotal
+            FROM Detalle_factura df;";
+
+                var detalles = connection.Query<DetalleFacturaModel>(queryDetalles).ToList();
+
                 foreach (var factura in facturas)
                 {
-                    Console.WriteLine($"{factura.Id} | {factura.IdCliente} | {factura.IdSucursal} | {factura.NroFactura} | {factura.FechaHora} | {factura.Total} | {factura.TotalIva5} | {factura.TotalIva10} | {factura.TotalIva} | {factura.TotalLetras} | {factura.Sucursal}");
+                    detalles.Where(d => d.IdFactura == factura.Id).ToList();
+                }
+
+                Console.WriteLine("Lista de Facturas:");
+                foreach (var factura in facturas)
+                {
+                    Console.WriteLine($"Factura {factura.NroFactura}, Fecha: {factura.FechaHora}, Total: {factura.Total}");
+
+                    foreach (var detalle in detalles)
+                    {
+                        string queryProducto = @"
+                        SELECT 
+                            descripcion
+                        FROM Productos 
+                        WHERE id = @IdProducto;";
+
+                        string descripcionProducto = connection.QueryFirstOrDefault<string>(queryProducto, new { IdProducto = detalle.IdProducto });
+
+                        Console.WriteLine($"- Producto: {descripcionProducto}, Cantidad: {detalle.CantidadProducto}, Subtotal: {detalle.Subtotal}");
+                    }
+
+                    Console.WriteLine("---------------------------------------------");
                 }
             }
             catch (Exception ex)

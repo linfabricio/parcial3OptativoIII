@@ -194,6 +194,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modelos\DetalleFacturaModel.cs" />
+    <Compile Include="Modelos\ProductosModel.cs" />
     <Compile Include="Modelos\ClienteModel.cs" />
     <Compile Include="Modelos\FacturaModel.cs" />
     <Compile Include="Modelos\SucursalModel.cs" />
@@ -204,6 +206,8 @@
     <Compile Include="Repository\ConfiguracionDb\ConnectionDB.cs" />
     <Compile Include="Repository\Factura\FacturaRepository.cs" />
     <Compile Include="Repository\Factura\Validator.cs" />
+    <Compile Include="Repository\Producto\Validator.cs" />
+    <Compile Include="Repository\Producto\ProductosRepository.cs" />
     <Compile Include="Repository\Sucursal\SucursalRepository.cs" />
     <Compile Include="Repository\Sucursal\Validator.cs" />
   </ItemGroup>

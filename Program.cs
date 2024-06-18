@@ -10,6 +10,7 @@ using OptativoIII_Parcial.Repository.Cliente;
 using OptativoIII_Parcial.Repository.Factura;
 using OptativoIII_Parcial.Repository.Sucursal;
 using OptativoIII_Parcial.Repository.ConfiguracionDb;
+using OptativoIII_Parcial.Repository.Producto;
 
 //CREATE TABLE Cliente (
 //    id SERIAL PRIMARY KEY,
@@ -36,15 +37,34 @@ using OptativoIII_Parcial.Repository.ConfiguracionDb;
 //CREATE TABLE Factura (
 //    id SERIAL PRIMARY KEY,
 //    id_cliente INTEGER REFERENCES Cliente(id),
-//    id_sucursal INTEGER REFERENCES Sucursal(Id),
+//    id_sucursal INTEGER REFERENCES Sucursal(id),
 //    Nro_Factura VARCHAR(50) UNIQUE NOT NULL,
 //    Fecha_Hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 //    Total DECIMAL(10, 2),
 //    Total_iva5 DECIMAL(10, 2),
 //    Total_iva10 DECIMAL(10, 2),
 //    Total_iva DECIMAL(10, 2),
-//    Total_letras VARCHAR(200),
-//    Sucursal VARCHAR(100)
+//    Total_letras VARCHAR(200)
+//);
+
+//CREATE TABLE Productos (
+//    id SERIAL PRIMARY KEY,
+//    descripcion VARCHAR(255) NOT NULL,
+//    cantidad_minima INTEGER NOT NULL,
+//    cantidad_stock INTEGER NOT NULL,
+//    precio_compra DECIMAL(10, 2) NOT NULL,
+//    precio_venta DECIMAL(10, 2) NOT NULL,
+//    categoria VARCHAR(100),
+//    marca VARCHAR(100),
+//    estado VARCHAR(50)
+//);
+
+//CREATE TABLE Detalle_factura (
+//    id SERIAL PRIMARY KEY,
+//    id_factura INTEGER REFERENCES Factura(id),
+//    id_producto INTEGER REFERENCES Productos(id),
+//    cantidad_producto INTEGER NOT NULL,
+//    subtotal DECIMAL(10, 2) NOT NULL
 //);
 
 namespace OptativoIII_Parcial
@@ -59,7 +79,8 @@ namespace OptativoIII_Parcial
             Console.WriteLine("1. Menu Cliente");
             Console.WriteLine("2. Menu Factura");
             Console.WriteLine("3. Menu Sucursal");
-            Console.WriteLine("4. Salir");
+            Console.WriteLine("4. Menu Producto");
+            Console.WriteLine("5. Salir");
 
             string opcionMenu = Console.ReadLine();
 
@@ -202,8 +223,6 @@ namespace OptativoIII_Parcial
                             Console.Write("Ingrese el ID del cliente: ");
                             int idClienteCreate = int.Parse(Console.ReadLine());
                             Console.Write("Ingrese el número de factura: ");
-                            int idSucursalCreate = int.Parse(Console.ReadLine());
-                            Console.Write("Ingrese el número de factura: ");
                             string nroFacturaCreate = Console.ReadLine();
                             Console.Write("Ingrese la fecha y hora de la factura (yyyy-MM-dd HH:mm:ss): ");
                             DateTime fechaHoraCreate = DateTime.ParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -218,12 +237,20 @@ namespace OptativoIII_Parcial
                             Console.Write("Ingrese el total en letras: ");
                             string totalLetrasCreate = Console.ReadLine();
                             Console.Write("Ingrese la sucursal: ");
-                            string sucursalCreate = Console.ReadLine();
+                            int sucursalCreate = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Agregando nuevo detalle de factura...");
+                            Console.Write("Ingrese el ID de la factura: ");
+                            int idFacturaDetalleCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el ID del producto: ");
+                            int idProductoDetalleCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la cantidad del producto: ");
+                            int cantidadProductoDetalleCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el subtotal: ");
+                            decimal subtotalDetalleCreate = decimal.Parse(Console.ReadLine());
 
                             var nuevaFactura = new FacturaModel
                             {
                                 IdCliente = idClienteCreate,
-                                IdSucursal = idSucursalCreate,
                                 NroFactura = nroFacturaCreate,
                                 FechaHora = fechaHoraCreate,
                                 Total = totalCreate,
@@ -231,10 +258,18 @@ namespace OptativoIII_Parcial
                                 TotalIva10 = totalIva10Create,
                                 TotalIva = totalIvaCreate,
                                 TotalLetras = totalLetrasCreate,
-                                Sucursal = sucursalCreate
+                                IdSucursal = sucursalCreate
                             };
 
-                            facturaServicesCreate.Create(nuevaFactura);
+                            var nuevoDetalleFactura = new DetalleFacturaModel
+                            {
+                                IdFactura = idFacturaDetalleCreate,
+                                IdProducto = idProductoDetalleCreate,
+                                CantidadProducto = cantidadProductoDetalleCreate,
+                                Subtotal = subtotalDetalleCreate
+                            };
+
+                            facturaServicesCreate.Create(nuevaFactura, nuevoDetalleFactura);
                             Console.WriteLine("Factura agregada correctamente. Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -250,6 +285,7 @@ namespace OptativoIII_Parcial
                         case "3":
                             FacturaRepository facturaServicesUpdate = new FacturaRepository(connectionString);
                             var facturaActualizar = new FacturaModel();
+                            var detalleFacturaActualizar = new DetalleFacturaModel();
                             Console.WriteLine("Actualizando factura...");
                             Console.Write("Ingrese el ID de la factura a actualizar: ");
                             int idFacturaActualizar = int.Parse(Console.ReadLine());
@@ -273,6 +309,17 @@ namespace OptativoIII_Parcial
                             string totalLetrasActualizar = Console.ReadLine();
                             Console.Write("Ingrese la sucursal: ");
                             string sucursalActualizar = Console.ReadLine();
+                            Console.WriteLine("Actualizando detalle de factura...");
+                            Console.Write("Ingrese el ID del detalle de factura a actualizar: ");
+                            int idDetalleFacturaActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el ID de la factura: ");
+                            int idFacturaDetalleActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el ID del producto: ");
+                            int idProductoDetalleActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la cantidad del producto: ");
+                            int cantidadProductoDetalleActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el subtotal: ");
+                            decimal subtotalDetalleActualizar = decimal.Parse(Console.ReadLine());
 
                             facturaActualizar.Id = idFacturaActualizar;
                             facturaActualizar.IdCliente = idClienteActualizar;
@@ -286,7 +333,13 @@ namespace OptativoIII_Parcial
                             facturaActualizar.TotalLetras = totalLetrasActualizar;
                             facturaActualizar.Sucursal = sucursalActualizar;
 
-                            facturaServicesUpdate.Update(facturaActualizar, idFacturaActualizar);
+                            detalleFacturaActualizar.Id = idDetalleFacturaActualizar;
+                            detalleFacturaActualizar.IdFactura = idFacturaDetalleActualizar;
+                            detalleFacturaActualizar.IdProducto = idProductoDetalleActualizar;
+                            detalleFacturaActualizar.CantidadProducto = cantidadProductoDetalleActualizar;
+                            detalleFacturaActualizar.Subtotal = subtotalDetalleActualizar;
+
+                            facturaServicesUpdate.Update(facturaActualizar, idFacturaActualizar, detalleFacturaActualizar);
                             Console.WriteLine("Factura actualizada correctamente. Presione cualquier tecla para continuar...");
                             Console.ReadKey();
                             break;
@@ -422,7 +475,128 @@ namespace OptativoIII_Parcial
                     }
                 }
             }
+            else if (opcionMenu == "4")
+            {
+                Console.WriteLine("Menú Productos Seleccione una opción");
+                Console.WriteLine("1. Agregar Producto");
+                Console.WriteLine("2. Listar Productos");
+                Console.WriteLine("3. Actualizar Producto");
+                Console.WriteLine("4. Eliminar Producto");
+                Console.WriteLine("5. Salir");
 
+                bool salirMenuProductos = false;
+                while (!salirMenuProductos)
+                {
+                    Console.Write("Ingrese la opción deseada: ");
+                    string opcionProductos = Console.ReadLine();
+
+                    switch (opcionProductos)
+                    {
+                        case "1":
+                            ProductosRepository productoServicesCreate = new ProductosRepository(connectionString);
+                            Console.WriteLine("Creando nuevo producto...");
+                            Console.Write("Ingrese la descripción: ");
+                            string descripcionProductoCreate = Console.ReadLine();
+                            Console.Write("Ingrese la cantidad mínima: ");
+                            int cantidadMinimaCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la cantidad en stock: ");
+                            int cantidadStockCreate = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el precio de compra: ");
+                            decimal precioCompraCreate = decimal.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el precio de venta: ");
+                            decimal precioVentaCreate = decimal.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la categoría: ");
+                            string categoriaCreate = Console.ReadLine();
+                            Console.Write("Ingrese la marca: ");
+                            string marcaCreate = Console.ReadLine();
+                            Console.Write("Ingrese el estado: ");
+                            string estadoProductoCreate = Console.ReadLine();
+
+                            var nuevoProducto = new ProductosModel
+                            {
+                                Descripcion = descripcionProductoCreate,
+                                CantidadMinima = cantidadMinimaCreate,
+                                CantidadStock = cantidadStockCreate,
+                                PrecioCompra = precioCompraCreate,
+                                PrecioVenta = precioVentaCreate,
+                                Categoria = categoriaCreate,
+                                Marca = marcaCreate,
+                                Estado = estadoProductoCreate
+                            };
+
+                            productoServicesCreate.Create(nuevoProducto);
+                            Console.WriteLine("Producto agregado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "2":
+                            ProductosRepository productoServicesSelect = new ProductosRepository(connectionString);
+                            Console.WriteLine("Listado de productos:");
+                            productoServicesSelect.Select();
+                            Console.WriteLine("Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "3":
+                            ProductosRepository productoServicesUpdate = new ProductosRepository(connectionString);
+                            var productoActualizar = new ProductosModel();
+                            Console.WriteLine("Actualizando producto...");
+                            Console.Write("Ingrese el ID del producto a actualizar: ");
+                            int idProductoActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la descripción: ");
+                            string descripcionProductoActualizar = Console.ReadLine();
+                            Console.Write("Ingrese la cantidad mínima: ");
+                            int cantidadMinimaActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la cantidad en stock: ");
+                            int cantidadStockActualizar = int.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el precio de compra: ");
+                            decimal precioCompraActualizar = decimal.Parse(Console.ReadLine());
+                            Console.Write("Ingrese el precio de venta: ");
+                            decimal precioVentaActualizar = decimal.Parse(Console.ReadLine());
+                            Console.Write("Ingrese la categoría: ");
+                            string categoriaActualizar = Console.ReadLine();
+                            Console.Write("Ingrese la marca: ");
+                            string marcaActualizar = Console.ReadLine();
+                            Console.Write("Ingrese el estado: ");
+                            string estadoProductoActualizar = Console.ReadLine();
+
+                            productoActualizar.Id = idProductoActualizar;
+                            productoActualizar.Descripcion = descripcionProductoActualizar;
+                            productoActualizar.CantidadMinima = cantidadMinimaActualizar;
+                            productoActualizar.CantidadStock = cantidadStockActualizar;
+                            productoActualizar.PrecioCompra = precioCompraActualizar;
+                            productoActualizar.PrecioVenta = precioVentaActualizar;
+                            productoActualizar.Categoria = categoriaActualizar;
+                            productoActualizar.Marca = marcaActualizar;
+                            productoActualizar.Estado = estadoProductoActualizar;
+
+                            productoServicesUpdate.Update(productoActualizar);
+                            Console.WriteLine("Producto actualizado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "4":
+                            ProductosRepository productoServicesDelete = new ProductosRepository(connectionString);
+                            Console.WriteLine("Eliminando producto...");
+                            Console.Write("Ingrese el ID del producto a eliminar: ");
+                            int idProductoEliminar = int.Parse(Console.ReadLine());
+                            productoServicesDelete.Delete(idProductoEliminar);
+                            Console.WriteLine("Producto eliminado correctamente. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+
+                        case "5":
+                            salirMenuProductos = true;
+                            break;
+
+                        default:
+                            Console.WriteLine("Opción no válida. Por favor, ingrese una opción válida. Presione cualquier tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+
+            }
         }
     }
 }

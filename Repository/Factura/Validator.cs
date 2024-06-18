@@ -8,9 +8,9 @@ namespace OptativoIII_Parcial.Validaciones
     {
         public static void ValidateFacturaModel(FacturaModel factura)
         {
-            ValidateNroFactura(factura.NroFactura);
-            ValidateTotales(factura.Total, factura.TotalIva5, factura.TotalIva10, factura.TotalIva);
-            ValidateTotalLetras(factura.TotalLetras);
+            // ValidateNroFactura(factura.NroFactura);
+            // ValidateTotales(factura.Total, factura.TotalIva5, factura.TotalIva10, factura.TotalIva);
+            // ValidateTotalLetras(factura.TotalLetras);
         }
 
         private static void ValidateNroFactura(string nroFactura)
@@ -30,7 +30,6 @@ namespace OptativoIII_Parcial.Validaciones
         {
             string patron = @"^\d{3}-\d{3}-\d{6}$";
 
-            // Verificar si el número de factura coincide con el patrón
             return Regex.IsMatch(nroFactura, patron);
         }
 
